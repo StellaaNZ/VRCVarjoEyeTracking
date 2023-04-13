@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRCVarjoEyeTracking", "VRCVarjoEyeTracking\VRCVarjoEyeTracking.csproj", "{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Debug|x64.Build.0 = Debug|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Debug|x86.Build.0 = Debug|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Release|x64.ActiveCfg = Release|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Release|x64.Build.0 = Release|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Release|x86.ActiveCfg = Release|Any CPU
+		{8BE8945A-4A3D-43ED-B245-0FBFB12A9D07}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63BE75C5-1603-47AD-A260-DE8E550AE6BE}
+	EndGlobalSection
+EndGlobal
