@@ -51,6 +51,7 @@
             txt_Logger.Multiline = true;
             txt_Logger.Name = "txt_Logger";
             txt_Logger.ReadOnly = true;
+            txt_Logger.ScrollBars = ScrollBars.Vertical;
             txt_Logger.Size = new Size(566, 426);
             txt_Logger.TabIndex = 0;
             // 
