@@ -12,7 +12,7 @@ namespace VRCVarjoEyeTracking
     class VarjoNativeInterface : VarjoInterface
     {
         private IntPtr _session;
-        private static frm_VRCVarjoEyeTracking MainForm = frm_VRCVarjoEyeTracking.Instance;
+        private static MainForm MainForm = MainForm.Instance;
 
         public override bool Initialize()
         {

@@ -20,7 +20,7 @@ namespace VRCVarjoEyeTracking
         private static OscMessage _eyeClosenessMessage;
 
 
-        private static frm_VRCVarjoEyeTracking MainForm;
+        private static MainForm MainForm;
 
         /// <summary>
         ///  The main entry point for the application.
@@ -35,7 +35,7 @@ namespace VRCVarjoEyeTracking
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                MainForm = frm_VRCVarjoEyeTracking.Instance;
+                MainForm = MainForm.Instance;
 
                 _applicationIdleHandler = delegate
                 {
@@ -95,15 +95,19 @@ namespace VRCVarjoEyeTracking
                     Vector leftEye = eyeData.leftEye.forward;
                     Vector rightEye = eyeData.rightEye.forward;
 
+                    List<object> values = new List<object> 
+                    { 
+                        -leftEye.y * MainForm.LeftEyeMultipler, 
+                        leftEye.x * MainForm.LeftEyeMultipler, 
+                        -rightEye.y * MainForm.RightEyeMultipler, 
+                        rightEye.x * MainForm.RightEyeMultipler
+                    };
 
-                    List<object> values = new List<object> { -leftEye.y, leftEye.x, -rightEye.y, rightEye.x };
-                    float closeness = (eyeMeasurements.leftEyeOpenness + eyeMeasurements.rightEyeOpenness) / 2;
+                    float closeness = (1 - eyeMeasurements.leftEyeOpenness + 1 - eyeMeasurements.rightEyeOpenness) / 2; // Has been reversed as they use different standards
 
-                    if (frm_VRCVarjoEyeTracking.OutputEnabled)
+                    if (MainForm.OutputEnabled)
                     {
-                        MainForm.AddLoggerMessage($"Left Eye Values: ({leftEye.x},{leftEye.y})");
-                        MainForm.AddLoggerMessage($"Right Eye Values: ({rightEye.x},{rightEye.y})");
-                        MainForm.AddLoggerMessage($"Closeness Value: {closeness}");
+                        MainForm.UpdateValues(leftEye, rightEye, closeness);
                     }
 
                     _eyeTrackingMessage = new OscMessage(AVATAR_EYE_TRACKING_ADDRESS, values);
