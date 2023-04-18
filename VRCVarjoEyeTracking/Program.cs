@@ -5,12 +5,12 @@ namespace VRCVarjoEyeTracking
 {
     internal static class Program
     {
-        private const string AVATAR_EYE_TRACKING_ADDRESS = "/tracking/eye/LeftRightVec";
+        private const string AVATAR_EYE_TRACKING_ADDRESS = "/tracking/eye/CenterVecFull";
         private const string AVATAR_EYE_CLOSENESS_ADDRESS = "/tracking/eye/EyesClosedAmount";
         private const string AVATAR_PARAMETERS_PREFIX = "/avatar/parameters/";
         private const string IP_ADDRESS = "127.0.0.1";
         private const int PORT_SEND = 9000;
-        private const int SEND_CYCLE_MILLISECONDS = 50;
+        private const int SEND_CYCLE_MILLISECONDS = 25;
 
         private static VarjoInterface tracker = new VarjoNativeInterface();
         private static EventHandler _applicationIdleHandler;
@@ -89,13 +89,18 @@ namespace VRCVarjoEyeTracking
                     Vector3 leftEye = VarjoInterface.NormalizeVarjoVector(eyeData.leftEye);
                     Vector3 rightEye = VarjoInterface.NormalizeVarjoVector(eyeData.rightEye);
 
-                    List<object> values = new List<object>
-                    {
-                        leftEye.X, leftEye.Y, leftEye.Z, rightEye.X, rightEye.Y, rightEye.Z,
-                    };
+                    //List<object> LeftValues = new List<object>
+                    //{
+                    //    leftEye.X, leftEye.Y, leftEye.Z
+                    //};
+
+                    //List<object> RightValues = new List<object>
+                    //{
+                    //    rightEye.X, rightEye.Y, rightEye.Z
+                    //};
 
                     float avgCloseness = 1 - ((eyeMeasurements.leftEyeOpenness + eyeMeasurements.rightEyeOpenness) / 2); // Has been reversed as they use different standards
-                    float thresholdCloseness = 1 - ((Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1) + ((Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1)) / 2)));
+                    float thresholdCloseness = 1 - ((Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1) + Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1)) / 2);
 
                     if (MainForm.OutputEnabled)
                     {
@@ -110,7 +115,9 @@ namespace VRCVarjoEyeTracking
 
                     float closeness = MainForm.ThresholdEnabled ? thresholdCloseness : avgCloseness;
 
-                    _eyeTrackingMessage = new OscMessage(AVATAR_EYE_TRACKING_ADDRESS, values);
+                    
+
+                    _eyeTrackingMessage = new OscMessage(AVATAR_EYE_TRACKING_ADDRESS, Convert.ToSingle(eyeData.gaze.forward.x), Convert.ToSingle(eyeData.gaze.forward.y), Convert.ToSingle(eyeData.focusDistance));
                     _eyeClosenessMessage = new OscMessage(AVATAR_EYE_CLOSENESS_ADDRESS, closeness);
 
                     List<OscMessage> sendingMessages = new List<OscMessage> { _eyeTrackingMessage, _eyeClosenessMessage };

@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace VRCVarjoEyeTracking
 {
     public sealed partial class MainForm : Form
@@ -12,6 +14,9 @@ namespace VRCVarjoEyeTracking
 
         public static bool ThresholdEnabled = true;
         public static float OpenThreshold = 0.2f;
+
+        //public static Vector3 LeftEye = new Vector3();
+        //public static Vector3 RightEye = new Vector3();
 
         MainForm()
         {
@@ -28,6 +33,7 @@ namespace VRCVarjoEyeTracking
             lbl_LeftOpenness.Text = Data.LeftOpenness.ToString("#.###");
             lbl_RightOpenness.Text = Data.RightOpenness.ToString("#.###");
             lbl_Closeness.Text = Data.AvgCloseness.ToString("#.###");
+            lbl_OscCloseness.Text = Data.OscClosenss.ToString("#.###");
         }
 
         public void AddLoggerMessage(string message)
@@ -94,6 +100,17 @@ namespace VRCVarjoEyeTracking
         private void chk_EnableThreshold_CheckedChanged(object sender, EventArgs e)
         {
             ThresholdEnabled = chk_EnableThreshold.Checked;
+        }
+
+        private void Eyes_ValueChanged(object sender, EventArgs e)
+        {
+            //LeftEye.X = Convert.ToSingle(lx.Value);
+            //LeftEye.Y = Convert.ToSingle(ly.Value);
+            //LeftEye.Z = Convert.ToSingle(lz.Value);
+
+            //RightEye.X = Convert.ToSingle(rx.Value);
+            //RightEye.Y = Convert.ToSingle(ry.Value);
+            //RightEye.Z = Convert.ToSingle(rz.Value);
         }
     }
 }

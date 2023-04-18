@@ -117,7 +117,8 @@ namespace VRCVarjoEyeTracking
     {
         public static Vector3 NormalizeVarjoVector(GazeRay gaze)
         {
-            Vector3 vector = new Vector3((float)(gaze.forward.x - gaze.origin.x), (float)gaze.forward.y, (float)gaze.forward.z);
+            Vector3 vector = new Vector3(Convert.ToSingle(gaze.forward.x), Convert.ToSingle(gaze.forward.y), Convert.ToSingle(gaze.forward.z));
+            //Vector3 vector = new Vector3((float)(gaze.forward.x - gaze.origin.x), (float)gaze.forward.y, (float)gaze.forward.z);
             return Vector3.Normalize(vector);
         }
 

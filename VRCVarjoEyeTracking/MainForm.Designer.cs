@@ -45,7 +45,19 @@
             label10 = new Label();
             lbl_RightOpenness = new Label();
             chk_EnableThreshold = new CheckBox();
+            lx = new NumericUpDown();
+            ly = new NumericUpDown();
+            lz = new NumericUpDown();
+            rx = new NumericUpDown();
+            rz = new NumericUpDown();
+            ry = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)num_OpenThreshold).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)lx).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ly).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)lz).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)rx).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)rz).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ry).BeginInit();
             SuspendLayout();
             // 
             // txt_Logger
@@ -213,11 +225,91 @@
             chk_EnableThreshold.UseVisualStyleBackColor = true;
             chk_EnableThreshold.CheckedChanged += chk_EnableThreshold_CheckedChanged;
             // 
+            // lx
+            // 
+            lx.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            lx.Location = new Point(616, 258);
+            lx.Maximum = new decimal(new int[] { 180, 0, 0, 0 });
+            lx.Minimum = new decimal(new int[] { 180, 0, 0, int.MinValue });
+            lx.Name = "lx";
+            lx.Size = new Size(47, 23);
+            lx.TabIndex = 8;
+            lx.Visible = false;
+            lx.ValueChanged += Eyes_ValueChanged;
+            // 
+            // ly
+            // 
+            ly.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            ly.Location = new Point(678, 258);
+            ly.Maximum = new decimal(new int[] { 180, 0, 0, 0 });
+            ly.Minimum = new decimal(new int[] { 180, 0, 0, int.MinValue });
+            ly.Name = "ly";
+            ly.Size = new Size(47, 23);
+            ly.TabIndex = 8;
+            ly.Visible = false;
+            ly.ValueChanged += Eyes_ValueChanged;
+            // 
+            // lz
+            // 
+            lz.DecimalPlaces = 3;
+            lz.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            lz.Location = new Point(735, 258);
+            lz.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
+            lz.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
+            lz.Name = "lz";
+            lz.Size = new Size(47, 23);
+            lz.TabIndex = 8;
+            lz.Visible = false;
+            lz.ValueChanged += Eyes_ValueChanged;
+            // 
+            // rx
+            // 
+            rx.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            rx.Location = new Point(616, 287);
+            rx.Maximum = new decimal(new int[] { 180, 0, 0, 0 });
+            rx.Minimum = new decimal(new int[] { 180, 0, 0, int.MinValue });
+            rx.Name = "rx";
+            rx.Size = new Size(47, 23);
+            rx.TabIndex = 8;
+            rx.Visible = false;
+            rx.ValueChanged += Eyes_ValueChanged;
+            // 
+            // rz
+            // 
+            rz.DecimalPlaces = 3;
+            rz.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            rz.Location = new Point(735, 287);
+            rz.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
+            rz.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
+            rz.Name = "rz";
+            rz.Size = new Size(47, 23);
+            rz.TabIndex = 8;
+            rz.Visible = false;
+            rz.ValueChanged += Eyes_ValueChanged;
+            // 
+            // ry
+            // 
+            ry.Increment = new decimal(new int[] { 5, 0, 0, 0 });
+            ry.Location = new Point(678, 287);
+            ry.Maximum = new decimal(new int[] { 180, 0, 0, 0 });
+            ry.Minimum = new decimal(new int[] { 180, 0, 0, int.MinValue });
+            ry.Name = "ry";
+            ry.Size = new Size(47, 23);
+            ry.TabIndex = 8;
+            ry.Visible = false;
+            ry.ValueChanged += Eyes_ValueChanged;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(824, 450);
+            Controls.Add(rz);
+            Controls.Add(lz);
+            Controls.Add(rx);
+            Controls.Add(ry);
+            Controls.Add(ly);
+            Controls.Add(lx);
             Controls.Add(chk_EnableThreshold);
             Controls.Add(label6);
             Controls.Add(num_OpenThreshold);
@@ -239,6 +331,12 @@
             Text = "VRCVarjoEyeTracking";
             FormClosing += frm_VRCVarjoEyeTracking_FormClosing;
             ((System.ComponentModel.ISupportInitialize)num_OpenThreshold).EndInit();
+            ((System.ComponentModel.ISupportInitialize)lx).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ly).EndInit();
+            ((System.ComponentModel.ISupportInitialize)lz).EndInit();
+            ((System.ComponentModel.ISupportInitialize)rx).EndInit();
+            ((System.ComponentModel.ISupportInitialize)rz).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ry).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -262,5 +360,11 @@
         private Label label10;
         private Label lbl_RightOpenness;
         private CheckBox chk_EnableThreshold;
+        private NumericUpDown lx;
+        private NumericUpDown ly;
+        private NumericUpDown lz;
+        private NumericUpDown rx;
+        private NumericUpDown rz;
+        private NumericUpDown ry;
     }
 }
