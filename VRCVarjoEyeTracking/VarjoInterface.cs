@@ -1,10 +1,5 @@
-﻿using SharpOSC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Numerics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VRCVarjoEyeTracking
 {
@@ -120,6 +115,12 @@ namespace VRCVarjoEyeTracking
 
     public abstract class VarjoInterface
     {
+        public static Vector3 NormalizeVarjoVector(GazeRay gaze)
+        {
+            Vector3 vector = new Vector3((float)(gaze.forward.x - gaze.origin.x), (float)gaze.forward.y, (float)gaze.forward.z);
+            return Vector3.Normalize(vector);
+        }
+
         protected GazeData gazeData;
         protected EyeMeasurements eyeMeasurements;
 

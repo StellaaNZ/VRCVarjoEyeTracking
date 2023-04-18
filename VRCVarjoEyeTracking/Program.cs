@@ -1,10 +1,11 @@
 using SharpOSC;
+using System.Numerics;
 
 namespace VRCVarjoEyeTracking
 {
     internal static class Program
     {
-        private const string AVATAR_EYE_TRACKING_ADDRESS = "/tracking/eye/LeftRightPitchYaw";
+        private const string AVATAR_EYE_TRACKING_ADDRESS = "/tracking/eye/LeftRightVec";
         private const string AVATAR_EYE_CLOSENESS_ADDRESS = "/tracking/eye/EyesClosedAmount";
         private const string AVATAR_PARAMETERS_PREFIX = "/avatar/parameters/";
         private const string IP_ADDRESS = "127.0.0.1";
@@ -18,7 +19,7 @@ namespace VRCVarjoEyeTracking
 
         private static OscMessage _eyeTrackingMessage;
         private static OscMessage _eyeClosenessMessage;
-
+        private static DisplayData _displayData = new DisplayData();
 
         private static MainForm MainForm;
 
@@ -45,14 +46,6 @@ namespace VRCVarjoEyeTracking
                 };
 
                 Application.Idle += _applicationIdleHandler;
-
-                //Application.ApplicationExit += delegate
-                //{
-                //    _sender.Close();
-                //    tracker.Teardown();
-                //    _sendingThread.Interrupt();
-                //    _sendingThread.Join();
-                //};
 
                 Application.Run(MainForm);
 
@@ -92,23 +85,30 @@ namespace VRCVarjoEyeTracking
                     tracker.Update();
                     GazeData eyeData = tracker.GetGazeData();
                     EyeMeasurements eyeMeasurements = tracker.GetEyeMeasurements();
-                    Vector leftEye = eyeData.leftEye.forward;
-                    Vector rightEye = eyeData.rightEye.forward;
 
-                    List<object> values = new List<object> 
-                    { 
-                        -leftEye.y * MainForm.LeftEyeMultipler, 
-                        leftEye.x * MainForm.LeftEyeMultipler, 
-                        -rightEye.y * MainForm.RightEyeMultipler, 
-                        rightEye.x * MainForm.RightEyeMultipler
+                    Vector3 leftEye = VarjoInterface.NormalizeVarjoVector(eyeData.leftEye);
+                    Vector3 rightEye = VarjoInterface.NormalizeVarjoVector(eyeData.rightEye);
+
+                    List<object> values = new List<object>
+                    {
+                        leftEye.X, leftEye.Y, leftEye.Z, rightEye.X, rightEye.Y, rightEye.Z,
                     };
 
-                    float closeness = (1 - eyeMeasurements.leftEyeOpenness + 1 - eyeMeasurements.rightEyeOpenness) / 2; // Has been reversed as they use different standards
+                    float avgCloseness = 1 - ((eyeMeasurements.leftEyeOpenness + eyeMeasurements.rightEyeOpenness) / 2); // Has been reversed as they use different standards
+                    float thresholdCloseness = 1 - ((Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1) + ((Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1)) / 2)));
 
                     if (MainForm.OutputEnabled)
                     {
-                        MainForm.UpdateValues(leftEye, rightEye, closeness);
+                        _displayData.LeftEye = leftEye;
+                        _displayData.RightEye = rightEye;
+                        _displayData.LeftOpenness = eyeMeasurements.leftEyeOpenness;
+                        _displayData.RightOpenness = eyeMeasurements.rightEyeOpenness;
+                        _displayData.AvgCloseness = avgCloseness;
+                        _displayData.OscClosenss = thresholdCloseness;
+                        MainForm.UpdateValues(_displayData);
                     }
+
+                    float closeness = MainForm.ThresholdEnabled ? thresholdCloseness : avgCloseness;
 
                     _eyeTrackingMessage = new OscMessage(AVATAR_EYE_TRACKING_ADDRESS, values);
                     _eyeClosenessMessage = new OscMessage(AVATAR_EYE_CLOSENESS_ADDRESS, closeness);
@@ -147,5 +147,13 @@ namespace VRCVarjoEyeTracking
         }
     }
 
-
+    public struct DisplayData
+    {
+        public Vector3 LeftEye;
+        public Vector3 RightEye;
+        public float LeftOpenness;
+        public float RightOpenness;
+        public float AvgCloseness;
+        public float OscClosenss;
+    }
 }

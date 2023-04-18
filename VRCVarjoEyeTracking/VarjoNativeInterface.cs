@@ -1,11 +1,4 @@
-﻿using SharpOSC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace VRCVarjoEyeTracking
 {
@@ -70,7 +63,7 @@ namespace VRCVarjoEyeTracking
                     MainForm.AddLoggerMessage(string.Concat("Couldn't extract the library ", path));
                     return false;
                 }
-                if (LoadLibrary(path) == IntPtr.Zero)
+                if (LoadLibrary(path) == IntPtr.Zero) //Where the library gets loaded
                 {
                     MainForm.AddLoggerMessage(string.Concat("Unable to load library ", path));
                     return false;

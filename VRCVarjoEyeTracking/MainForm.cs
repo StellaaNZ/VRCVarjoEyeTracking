@@ -10,6 +10,9 @@ namespace VRCVarjoEyeTracking
         public static float LeftEyeMultipler = 1.0f;
         public static float RightEyeMultipler = 1.0f;
 
+        public static bool ThresholdEnabled = true;
+        public static float OpenThreshold = 0.2f;
+
         MainForm()
         {
             InitializeComponent();
@@ -18,11 +21,13 @@ namespace VRCVarjoEyeTracking
             UpdateOutputEnabled();
         }
 
-        public void UpdateValues(Vector leftEye, Vector rightEye, float closeness)
+        public void UpdateValues(DisplayData Data)
         {
-            lbl_LeftEye.Text = $"({leftEye.x.ToString("###.##")}, {leftEye.y.ToString("###.##")}";
-            lbl_RightEye.Text = $"({rightEye.x.ToString("###.##")}, {rightEye.y.ToString("###.##")}";
-            lbl_Closeness.Text = closeness.ToString("#.###");
+            lbl_LeftEye.Text = $"({Data.LeftEye.X.ToString("###.##")}, {Data.LeftEye.Y.ToString("###.##")}, {Data.LeftEye.Z.ToString("###.##")})";
+            lbl_RightEye.Text = $"({Data.RightEye.X.ToString("###.##")}, {Data.RightEye.Y.ToString("###.##")}, {Data.RightEye.Z.ToString("###.##")})";
+            lbl_LeftOpenness.Text = Data.LeftOpenness.ToString("#.###");
+            lbl_RightOpenness.Text = Data.RightOpenness.ToString("#.###");
+            lbl_Closeness.Text = Data.AvgCloseness.ToString("#.###");
         }
 
         public void AddLoggerMessage(string message)
@@ -68,7 +73,10 @@ namespace VRCVarjoEyeTracking
             {
                 lbl_LeftEye.Text = "DISABLED";
                 lbl_RightEye.Text = "DISABLED";
+                lbl_LeftOpenness.Text = "DISABLED";
+                lbl_RightOpenness.Text = "DISABLED";
                 lbl_Closeness.Text = "DISABLED";
+                lbl_OscCloseness.Text = "DISABLED";
             }
 
         }
@@ -78,24 +86,14 @@ namespace VRCVarjoEyeTracking
             UpdateOutputEnabled();
         }
 
-        private void num_LeftMultiplier_ValueChanged(object sender, EventArgs e)
+        private void num_OpenThreshold_ValueChanged(object sender, EventArgs e)
         {
-            LeftEyeMultipler = Convert.ToSingle(num_LeftMultiplier.Value);
-            if (chk_SyncMultipliers.Checked)
-            {
-                RightEyeMultipler = LeftEyeMultipler;
-                num_RightMultiplier.Value = num_LeftMultiplier.Value;
-            }
+            OpenThreshold = Convert.ToSingle(num_OpenThreshold.Value);
         }
 
-        private void num_RightMultiplier_ValueChanged(object sender, EventArgs e)
+        private void chk_EnableThreshold_CheckedChanged(object sender, EventArgs e)
         {
-            RightEyeMultipler = Convert.ToSingle(num_RightMultiplier.Value);
-            if (chk_SyncMultipliers.Checked)
-            {
-                LeftEyeMultipler = RightEyeMultipler;
-                num_LeftMultiplier.Value = num_RightMultiplier.Value;
-            }
+            ThresholdEnabled = chk_EnableThreshold.Checked;
         }
     }
 }
