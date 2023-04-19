@@ -101,6 +101,13 @@ namespace VRCVarjoEyeTracking
 
                     float avgCloseness = 1 - ((eyeMeasurements.leftEyeOpenness + eyeMeasurements.rightEyeOpenness) / 2); // Has been reversed as they use different standards
                     float thresholdCloseness = 1 - ((Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1) + Math.Clamp(eyeMeasurements.leftEyeOpenness * (1 + MainForm.OpenThreshold), 0, 1)) / 2);
+                    //get normalized gaze vector to be transformed using the focus distance 
+                    Vector3 eyeVectorFull = VarjoInterface.NormalizeVarjoVector(eyeData.gaze);
+
+                    //Multiply all vectors by the focal distance to increase the length of the vector to match focal distance without changing the angle of the vector
+                    eyeVectorFull.X *= (float)eyeData.focusDistance;
+                    eyeVectorFull.Y *= (float)eyeData.focusDistance;
+                    eyeVectorFull.Z *= (float)eyeData.focusDistance;
 
                     if (MainForm.OutputEnabled)
                     {
@@ -117,7 +124,7 @@ namespace VRCVarjoEyeTracking
 
                     
 
-                    _eyeTrackingMessage = new OscMessage(AVATAR_EYE_TRACKING_ADDRESS, Convert.ToSingle(eyeData.gaze.forward.x), Convert.ToSingle(eyeData.gaze.forward.y), Convert.ToSingle(eyeData.focusDistance));
+                    _eyeTrackingMessage = new OscMessage(AVATAR_EYE_TRACKING_ADDRESS, eyeVectorFull.X,eyeVectorFull.Y,eyeVectorFull.Z);
                     _eyeClosenessMessage = new OscMessage(AVATAR_EYE_CLOSENESS_ADDRESS, closeness);
 
                     List<OscMessage> sendingMessages = new List<OscMessage> { _eyeTrackingMessage, _eyeClosenessMessage };
